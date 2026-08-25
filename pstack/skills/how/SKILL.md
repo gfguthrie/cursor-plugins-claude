@@ -23,7 +23,7 @@ When in doubt, take the simple path.
 
 Decompose the question into 2 to 4 exploration angles, each a distinct slice of the subsystem. Spawn all explorers in a single message:
 
-- `subagent_type`: `generalPurpose`
+- `subagent_type`: `general-purpose`
 - `model`: the `how explorer` line, default `grok-4.7-xhigh-fast`
 - `readonly`: `true`
 
@@ -33,7 +33,7 @@ Each explorer gets the prompt in `references/explorer-prompt.md` with its angle 
 
 Spawn one Task subagent that explores and explains in one pass:
 
-- `subagent_type`: `generalPurpose`
+- `subagent_type`: `general-purpose`
 - `model`: the `how explainer` line, default `claude-opus-5-5-max`
 - `readonly`: `true`
 
@@ -43,7 +43,7 @@ Build its prompt from `references/explainer-prompt.md` without the explorer-find
 
 Once all explorers have returned, spawn one Task subagent to synthesize their findings into one explanation:
 
-- `subagent_type`: `generalPurpose`
+- `subagent_type`: `general-purpose`
 - `model`: the `how explainer` line, default `claude-opus-5-5-max`
 - `readonly`: `true`
 

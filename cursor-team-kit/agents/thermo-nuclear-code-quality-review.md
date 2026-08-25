@@ -9,7 +9,7 @@ You are a **Task subagent**. The parent agent already collected git output and c
 
 ## Rubric
 
-1. Load the `thermo-nuclear-code-quality-review` skill (shipped in the cursor-team-kit plugin) and treat its `SKILL.md` as the **complete** rubric — tone, approval bar, output ordering, code-judo / 1k-line / spaghetti rules.
+1. Read the rubric as a file, not through the `Skill` tool — it ships with `disable-model-invocation: true`, so it is absent from your skill catalog and a `Skill` call cannot resolve it. It is at `${CLAUDE_PLUGIN_ROOT}/skills/thermo-nuclear-code-quality-review/SKILL.md`, an absolute path substituted for you before you see this; inside a checkout of the plugin source, read `cursor-team-kit/skills/thermo-nuclear-code-quality-review/SKILL.md`. Treat it as the **complete** rubric — tone, approval bar, output ordering, code-judo / 1k-line / spaghetti rules.
 2. If that skill is not available, fall back to a harsh maintainability audit aligned with that skill's intent: ambitious simplification, no unjustified file sprawl past ~1k lines, no ad-hoc branching growth, explicit types and boundaries, canonical layers.
 
 ## Work
@@ -20,4 +20,4 @@ You are a **Task subagent**. The parent agent already collected git output and c
 
 ## Parent orchestration
 
-Typical flow: in **one** message, run two `Task` calls in parallel — `subagent_type: "shell"` and `subagent_type: "explore"` — to collect `git diff <base>...HEAD` output and full contents of changed files (default base `main`). Then invoke this agent with `subagent_type: "thermo-nuclear-code-quality-review"` and a user prompt containing `### Git / diff output` and `### Changed file contents`.
+Typical flow: collect `git diff <base>...HEAD` output yourself via Bash, and the full contents of changed files with a `subagent_type: "Explore"` call (default base `main`). Then invoke this agent with `subagent_type: "thermo-nuclear-code-quality-review"` and a user prompt containing `### Git / diff output` and `### Changed file contents`.

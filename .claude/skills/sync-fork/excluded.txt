@@ -1,0 +1,25 @@
+# Upstream plugins the fork deliberately does not ship.
+#
+# These target Cursor's own runtime closely enough that porting would mean
+# rewriting them, not adapting them. They get no .claude-plugin/ manifest, no
+# marketplace entry, and no README table row — and they are out of scope for
+# any compatibility fix. Everything here must still exist upstream; the check
+# script fails on a stale entry so a deleted plugin doesn't sit here forever.
+#
+# Format: <path><TAB><reason>
+
+create-plugin	scaffolds .cursor-plugin manifests and .mdc rules into ~/.cursor/plugins/local — Claude Code authors plugins natively
+cursor-sdk	reference material for the @cursor/sdk npm package, which drives Cursor agents rather than Claude Code
+orchestrate	fans work out across Cursor cloud agents via @cursor/sdk and CURSOR_API_KEY — no Claude Code equivalent to point at
+docs-canvas	requires ~/.cursor/skills-cursor/canvas, which ships inside the Cursor app (upstream also marks it a placeholder)
+pr-review-canvas	same in-app canvas runtime dependency as docs-canvas
+continual-learning	its cadence-gated Stop hook is the whole product, and the skill is disable-model-invocation so nothing else can trigger it — porting the hook means owning three upstream files forever
+ralph-loop	Anthropic ships ralph-loop in claude-plugins-official (and ralph-wiggum in claude-code) — install those instead of reworking the afterAgentResponse/done-flag design
+third_party/x	its mcp.json auth block (OAuth client id + scopes) has no Claude Code counterpart, and the skill's connect flow and error taxonomy are written around Cursor's Connect UI — the guidance would misdirect on the errors that matter most
+advisor	built on Cursor hook events (afterFileEdit, afterAgentResponse, loop_limit) with state in .cursor/advisor/ and Grok model slugs — porting means rewriting the hooks and the skill around them
+dyl-stack	one engineer's style layered on poteto-mode, needing is_background/generalPurpose patches plus Bugbot — not worth three more permanent patch entries
+third_party/google-drive	its MCP server is api.cursor.com/rest-mcp, authenticated by the Cursor account — the skill is useless without it
+third_party/google-docs	same Cursor-hosted rest-mcp server as google-drive
+third_party/google-sheets	same Cursor-hosted rest-mcp server as google-drive
+third_party/google-slides	same Cursor-hosted rest-mcp server as google-drive
+third_party/x-money	gated to Grok Bot upstream (minClientVersions cursor: never) — not even Cursor ships it

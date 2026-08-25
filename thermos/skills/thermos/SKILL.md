@@ -15,7 +15,7 @@ Run the two thermo review passes as async background subagents in parallel, then
 3. Launch both subagents in the same message with `run_in_background: true`:
    - `subagent_type: "thermo-nuclear-review-subagent"` for bugs, breakages, security, devex regressions, feature-flag leaks, and other branch-audit risks.
    - `subagent_type: "thermo-nuclear-code-quality-review-subagent"` for maintainability, structure, file-size growth, spaghetti, abstractions, and codebase-health risks.
-4. Pass each subagent the same scoped diff/file context and ask it to return prioritized findings with file references and evidence.
+4. Pass each subagent the same scoped diff/file context and ask it to return prioritized findings with file references and evidence. Include its rubric in the prompt under a `### Rubric` heading, read verbatim from `${CLAUDE_PLUGIN_ROOT}/skills/thermo-nuclear-review/SKILL.md` and `${CLAUDE_PLUGIN_ROOT}/skills/thermo-nuclear-code-quality-review/SKILL.md` — both carry `disable-model-invocation: true`, so a subagent that has to go looking for its own rubric may silently improvise one instead.
 5. After both finish, synthesize the results with findings first, deduplicated across reviewers. Weight overlapping findings more heavily, resolve disagreements with your own judgment, and keep summaries brief.
 
 If individual background summaries are already visible to the user, do not restate them wholesale. Surface the unified verdict, the highest-signal findings, and any remaining uncertainty.

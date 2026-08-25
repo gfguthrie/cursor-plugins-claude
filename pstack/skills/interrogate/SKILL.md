@@ -33,7 +33,7 @@ Write one clear paragraph. If you're unsure about the intent, ask the user befor
 
 ## Step 3, Spawn Reviewers
 
-Launch all reviewers in a single message using the Task tool. Use the `interrogate reviewers` line in `~/.cursor/rules/pstack-models.mdc`, one reviewer per entry, extending or shrinking the Reviewer A/B/C labels below to the configured entry count. If the rule or that line is missing, use the table defaults.
+Launch all reviewers in a single message using the Task tool. Use the `interrogate reviewers` line in `~/.claude/pstack-models.md`, one reviewer per entry, extending or shrinking the Reviewer A/B/C labels below to the configured entry count. If the rule or that line is missing, use the table defaults.
 
 | Subagent | Default model |
 |----------|---------------|
@@ -42,7 +42,7 @@ Launch all reviewers in a single message using the Task tool. Use the `interroga
 | Reviewer C | `grok-4.7-xhigh-fast` |
 
 For each reviewer:
-- `subagent_type`: `generalPurpose`
+- `subagent_type`: `general-purpose`
 - `model`: the configured `interrogate reviewers` entry, or the table default with no configured line. For an `auto` or `inherit-parent` entry, omit `model` so that reviewer runs on the parent model.
 - `readonly`: `true`
 
