@@ -1,0 +1,69 @@
+{
+  "name": "cursor-plugins-claude",
+  "description": "Unofficial Claude Code fork of the Cursor plugin marketplace: developer tools, framework rules, MCP integrations, and agent skills",
+  "owner": {
+    "name": "Grant Guthrie",
+    "url": "https://github.com/gfguthrie/cursor-plugins-claude"
+  },
+  "plugins": [
+    {
+      "name": "teaching",
+      "description": "Skill mapping, practice plans, and learning retrospectives.",
+      "source": "./teaching",
+      "category": "developer-tools",
+      "author": {
+        "name": "Cursor",
+        "email": "plugins@cursor.com"
+      }
+    },
+    {
+      "name": "cursor-team-kit",
+      "description": "Internal team workflows for CI, code review, shipping, local automation, and verification.",
+      "source": "./cursor-team-kit",
+      "category": "developer-tools",
+      "author": {
+        "name": "Cursor",
+        "email": "plugins@cursor.com"
+      }
+    },
+    {
+      "name": "thermos",
+      "description": "Thermo-nuclear branch review: deep security/correctness audits, harsh code-quality rubrics, parallel subagents, thermos orchestration, and optional merge-ready PR flows.",
+      "source": "./thermos",
+      "category": "developer-tools",
+      "author": {
+        "name": "Cursor",
+        "email": "plugins@cursor.com"
+      }
+    },
+    {
+      "name": "agent-compatibility",
+      "description": "CLI-backed repo compatibility scans plus agents that audit startup, validation, and docs against reality.",
+      "source": "./agent-compatibility",
+      "category": "developer-tools",
+      "author": {
+        "name": "Cursor",
+        "email": "plugins@cursor.com"
+      }
+    },
+    {
+      "name": "cli-for-agent",
+      "description": "Patterns for designing CLIs that coding agents can run reliably: flags, help with examples, pipelines, errors, idempotency, dry-run.",
+      "source": "./cli-for-agent",
+      "category": "developer-tools",
+      "author": {
+        "name": "Cursor",
+        "email": "plugins@cursor.com"
+      }
+    },
+    {
+      "name": "pstack",
+      "description": "if you want to go fast, go deep first. pstack helps you write less, but higher quality code. rigorous agent workflows you can parallelize with confidence.",
+      "source": "./pstack",
+      "category": "developer-tools",
+      "author": {
+        "name": "Lauren Tan"
+      }
+    }
+  ]
+}

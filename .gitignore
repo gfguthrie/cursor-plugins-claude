@@ -33,3 +33,6 @@ build/
 
 # Logs
 *.log
+
+# Re-included here: a global excludesFile ignores .claude/, but this fork tracks it
+!.claude/

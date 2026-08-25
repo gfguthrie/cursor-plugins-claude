@@ -1,92 +1,105 @@
-# Cursor plugins
+# cursor-plugins-claude
 
-Official Cursor plugins for popular developer tools, frameworks, and SaaS products. Each plugin is a standalone directory at the repository root with its own `.cursor-plugin/plugin.json` manifest.
+[Cursor's official plugins](https://github.com/cursor/plugins) adapted for [Claude Code](https://docs.anthropic.com/en/docs/claude-code).
 
-## Plugins
+Cursor ships a set of high-quality agent plugins — skills, agents, and rules — but they target Cursor's own runtime. This fork adds the `.claude-plugin/` manifests that Claude Code needs, so you can install the same plugins with a single command.
+
+It ships the plugins whose value is the authoring: skills, agents, commands, and hooks. Upstream's [MCP-only plugins](#mcp-servers) are not in the marketplace, since `claude mcp add` already does that job better than a manifest can.
+
+## Quick start
+
+```sh
+# 1. Add the marketplace
+/plugin marketplace add gfguthrie/cursor-plugins-claude
+
+# 2. Install any plugin
+/plugin install cursor-team-kit@cursor-plugins-claude
+```
+
+You can install as many plugins as you need:
+
+```sh
+/plugin install teaching@cursor-plugins-claude
+/plugin install thermos@cursor-plugins-claude
+```
+
+## Available plugins
 
 | `name` | Plugin | Author | Category | `description` (from marketplace) |
 |:-------|:-------|:-------|:---------|:-------------------------------------|
-| `teaching` | [Teaching](teaching/) | Cursor | Utilities | Skill mapping, practice plans, and learning retrospectives. |
-| `continual-learning` | [Continual Learning](continual-learning/) | Cursor | Developer Tools | Incremental transcript-driven memory updates for AGENTS.md using high-signal bullet points only. |
+| `teaching` | [Teaching](teaching/) | Cursor | Developer Tools | Skill mapping, practice plans, and learning retrospectives. |
 | `cursor-team-kit` | [Cursor Team Kit](cursor-team-kit/) | Cursor | Developer Tools | Internal team workflows for CI, code review, shipping, local automation, and verification. |
 | `thermos` | [Thermos](thermos/) | Cursor | Developer Tools | Thermo-nuclear branch review: deep security/correctness audits, harsh code-quality rubrics, parallel subagents, thermos orchestration, and optional merge-ready PR flows. |
-| `create-plugin` | [Create Plugin](create-plugin/) | Cursor | Developer Tools | Scaffold and validate new agent plugins. |
-| `ralph-loop` | [Ralph Loop](ralph-loop/) | Cursor | Developer Tools | Iterative self-referential AI loops using the Ralph Wiggum technique. |
 | `agent-compatibility` | [Agent Compatibility](agent-compatibility/) | Cursor | Developer Tools | CLI-backed repo compatibility scans plus agents that audit startup, validation, and docs against reality. |
 | `cli-for-agent` | [CLI for Agents](cli-for-agent/) | Cursor | Developer Tools | Patterns for designing CLIs that coding agents can run reliably: flags, help with examples, pipelines, errors, idempotency, dry-run. |
-| `pr-review-canvas` | [PR Review Canvas](pr-review-canvas/) | Cursor | Developer Tools | Render PR diffs as review canvases grouped by importance. |
-| `docs-canvas` | [Docs Canvas](docs-canvas/) | Cursor | Developer Tools | Render documentation as a navigable canvas. |
-| `cursor-sdk` | [Cursor SDK](cursor-sdk/) | Cursor | Developer Tools | Build apps, scripts, and automations with the TypeScript SDK. |
-| `orchestrate` | [Orchestrate](orchestrate/) | Cursor | Developer Tools | Fan large tasks out across parallel cloud agents with planners, workers, verifiers, and structured handoffs. |
 | `pstack` | [pstack](pstack/) | Lauren Tan | Developer Tools | if you want to go fast, go deep first. pstack helps you write less, but higher quality code. rigorous agent workflows you can parallelize with confidence. |
-| `gmail` | [Gmail](third_party/gmail/) | Cursor | Productivity | Search, read, draft, and manage email. |
-| `google-drive` | [Google Drive](third_party/google-drive/) | Cursor | Productivity | Search, read, create, and share files. |
-| `google-calendar` | [Google Calendar](third_party/google-calendar/) | Cursor | Productivity | Search events and schedule meetings. |
-| `gong` | [Gong](third_party/gong/) | Cursor | Integrations | Pull account summaries, deal insights, and call briefs. |
-| `salesforce` | [Salesforce](third_party/salesforce/) | Cursor | Integrations | Query, create, and update records in your org. |
-| `playwright` | [Playwright](third_party/playwright/) | Cursor | Integrations | Navigate, click, screenshot, and test in a real browser. |
-| `github` | [GitHub](third_party/github/) | Cursor | Integrations | Manage repos, issues, pull requests, and Actions. |
-| `ashby` | [Ashby](third_party/ashby/) | Cursor | Integrations | Search candidates, prep interviews, and manage pipeline tasks. |
-| `hubspot` | [HubSpot](third_party/hubspot/) | Cursor | Integrations | Search and update contacts, companies, deals, and tickets. |
-| `intercom` | [Intercom](third_party/intercom/) | Cursor | Integrations | Search conversations, contacts, and Help Center articles. |
-| `zoom` | [Zoom](third_party/zoom/) | Cursor | Integrations | Search meetings, pull transcripts, and work with Zoom Docs. |
-| `x` | [X](third_party/x/) | Cursor | Integrations | Search posts, read timelines, pull trends, and manage bookmarks. |
-| `clay` | [Clay](third_party/clay/) | Cursor | Integrations | Enrich people and companies, run AI research agents. |
-| `circleback` | [Circleback](third_party/circleback/) | Cursor | Integrations | Search meetings, transcripts, action items, and emails. |
-| `docusign` | [Docusign](third_party/docusign/) | Cursor | Integrations | Manage envelopes, templates, workflows, and agreements. |
-| `navan` | [Navan](third_party/navan/) | Cursor | Integrations | Query expenses, travel bookings, policies, and cards. |
-| `profound` | [Profound](third_party/profound/) | Cursor | Integrations | Track AI visibility, sentiment, and citations. |
-| `juicebox` | [Juicebox](third_party/juicebox/) | Cursor | Integrations | Query recruiting analytics, shortlists, and sourcing agents. |
-| `outreach` | [Outreach](third_party/outreach/) | Cursor | Integrations | Search sequences, prospects, and Kaia meetings. |
-| `amplemarket` | [Amplemarket](third_party/amplemarket/) | Cursor | Integrations | Search people and companies, enrich leads, run sequences. |
-| `klaviyo` | [Klaviyo](third_party/klaviyo/) | Cursor | Integrations | Manage profiles, segments, campaigns, and flows. |
-| `customer-io` | [Customer.io](third_party/customer-io/) | Cursor | Integrations | Build campaigns, manage segments, and query people. |
-| `mailerlite` | [MailerLite](third_party/mailerlite/) | Cursor | Integrations | Manage subscribers, groups, campaigns, and automations. |
-| `brevo` | [Brevo](third_party/brevo/) | Cursor | Integrations | Manage contacts, email and SMS campaigns, and CRM deals. |
-| `typeform` | [Typeform](third_party/typeform/) | Cursor | Integrations | Build forms, analyze responses, and manage contacts. |
-| `jotform` | [Jotform](third_party/jotform/) | Cursor | Integrations | Create and edit forms, then read submissions. |
-| `semrush` | [Semrush](third_party/semrush/) | Cursor | Integrations | Research keywords, backlinks, traffic, and competitors. |
-| `ahrefs` | [Ahrefs](third_party/ahrefs/) | Cursor | Integrations | Research keywords, backlinks, rankings, and site health. |
-| `godaddy` | [GoDaddy](third_party/godaddy/) | Cursor | Integrations | Brainstorm domain names and check availability. |
-| `upwork` | [Upwork](third_party/upwork/) | Cursor | Integrations | Search talent, post jobs, and manage contracts. |
-| `workable` | [Workable](third_party/workable/) | Cursor | Integrations | Search candidates, move pipelines, and manage HR records. |
-| `brex` | [Brex](third_party/brex/) | Cursor | Integrations | Query expenses, receipts, bills, cards, and travel. |
-| `mercury` | [Mercury](third_party/mercury/) | Cursor | Integrations | Read balances, transactions, statements, and cards. |
-| `todoist` | [Todoist](third_party/todoist/) | Cursor | Integrations | Create, find, and complete tasks and projects. |
-| `calendly` | [Calendly](third_party/calendly/) | Cursor | Integrations | Check availability and book, cancel, or reschedule. |
-| `smartsheet` | [Smartsheet](third_party/smartsheet/) | Cursor | Integrations | Query and update sheets, rows, and workspaces. |
-| `wrike` | [Wrike](third_party/wrike/) | Cursor | Integrations | Search projects, create tasks, and post comments. |
-| `coda` | [Coda](third_party/coda/) | Cursor | Integrations | Search docs, read pages, and update tables. |
-| `guru` | [Guru](third_party/guru/) | Cursor | Integrations | Search company knowledge and draft verified answers. |
-| `fireflies` | [Fireflies](third_party/fireflies/) | Cursor | Integrations | Search meeting transcripts, summaries, and action items. |
-| `otter` | [Otter.ai](third_party/otter/) | Cursor | Integrations | Search meeting history and pull full transcripts. |
-| `fathom` | [Fathom](third_party/fathom/) | Cursor | Integrations | Search meetings and pull transcripts and summaries. |
-| `craft` | [Craft](third_party/craft/) | Cursor | Integrations | Search, create, and update documents and daily notes. |
-| `mem` | [Mem](third_party/mem/) | Cursor | Integrations | Capture, search, and organize notes and collections. |
-| `readwise` | [Readwise](third_party/readwise/) | Cursor | Integrations | Search highlights and Reader documents, save articles. |
-| `similarweb` | [Similarweb](third_party/similarweb/) | Cursor | Integrations | Analyze website traffic, audiences, and competitors. |
-| `xero` | [Xero](third_party/xero/) | Cursor | Integrations | Read and write invoices, contacts, reports, and payroll. |
-Author values match each plugin’s `plugin.json` `author.name` (Cursor lists `plugins@cursor.com` in the manifest).
 
-## Repository structure
+## Not ported
 
-This is a multi-plugin marketplace repository. The root `.cursor-plugin/marketplace.json` lists all plugins, and each plugin has its own manifest:
+8 upstream plugins are deliberately absent — 6 because they are built around a piece of Cursor's own runtime that Claude Code has no equivalent of, and 2 because the port is not worth what it costs:
 
+| Plugin | Why |
+|:-------|:----|
+| `create-plugin` | Scaffolds `.cursor-plugin/` manifests and `.mdc` rules into `~/.cursor/plugins/local/`. Claude Code authors plugins natively. |
+| `cursor-sdk` | Reference material for the `@cursor/sdk` npm package, which drives Cursor agents rather than Claude Code. |
+| `orchestrate` | Fans work out across Cursor cloud agents via `@cursor/sdk` and `CURSOR_API_KEY`. |
+| `docs-canvas` | Needs `~/.cursor/skills-cursor/canvas`, which ships inside the Cursor app. Upstream also marks it a placeholder. |
+| `pr-review-canvas` | Same in-app canvas dependency. |
+| `ralph-loop` | Anthropic ships its own `ralph-loop` in [`claude-plugins-official`](https://github.com/anthropics/claude-plugins-official) (and `ralph-wiggum` in [`claude-code`](https://github.com/anthropics/claude-code)). Install one of those rather than reworking Cursor's `afterAgentResponse` + done-flag design. |
+| `continual-learning` | Its cadence-gated `Stop` hook is the whole product, and its skill is `disable-model-invocation`, so without the hook nothing can trigger it. Porting the hook means owning three upstream files across every future rebase. |
+| `x` | The only MCP plugin upstream ships with a skill attached, but both halves are Cursor-shaped: its `mcp.json` carries an `auth` block (OAuth client id plus scopes) with no Claude Code counterpart, and the skill's connect flow and error taxonomy are written around Cursor's Connect UI. Since the guidance exists to explain sign-in and billing failures, misdirecting on exactly those is worse than not shipping it. Add the server with `claude mcp add` and read [the skill](third_party/x/skills/x-api-mcp-guide/SKILL.md) in place — it's worth reading for the credit costs alone. |
+
+The list lives in [`excluded.txt`](.claude/skills/sync-fork/excluded.txt) and is enforced during every sync.
+
+### MCP servers
+
+49 further upstream plugins are only an MCP server config — a `type` and a `url` in an `mcp.json`, with no skills, agents, commands, or hooks. Claude Code adds an MCP server directly, so a manifest around one of those would add nothing but a name in a marketplace:
+
+```sh
+claude mcp add --transport http gmail https://gmailmcp.googleapis.com/mcp/v1
 ```
-plugins/
-├── .cursor-plugin/
-│   └── marketplace.json       # Marketplace manifest (lists all plugins)
-├── plugin-name/
-│   ├── .cursor-plugin/
-│   │   └── plugin.json        # Per-plugin manifest
-│   ├── skills/                # Agent skills (SKILL.md with frontmatter)
-│   ├── rules/                 # Cursor rules (.mdc files)
-│   ├── mcp.json               # MCP server definitions
-│   ├── README.md
-│   ├── CHANGELOG.md
-│   └── LICENSE
-└── ...
-```
+
+Their directories are still here under `third_party/`, so the URLs are easy to lift from `mcp.json`. Six also carry a Cursor-specific `auth` block — an OAuth client id and scope list — that has no counterpart in Claude Code's MCP config, so presenting them as ported would overstate what a manifest achieves. `x` is the only one of the fifty that ships a skill; it is excluded on that `auth` block, per the row above.
+
+## What changed from upstream
+
+This fork adds a `.claude-plugin/` directory at the repo root and inside each plugin, containing the marketplace and plugin manifests required by Claude Code. Beyond that the fork changes as little as possible: every upstream file is byte-identical except those listed in [`patched.txt`](.claude/skills/sync-fork/patched.txt), which each carry a Claude Code fix described below.
+
+The fork ships the plugins that carry authored content — skills, agents, commands, or hooks — because that is the part a manifest actually makes usable. Upstream's MCP-only plugins are left in the tree but unshipped, so nothing under `third_party/` currently ships.
+
+## Known gaps
+
+Adding a manifest makes a plugin *installable*; it doesn't translate the parts written against Cursor's runtime. Claude Code discovers `skills/`, `commands/`, and `agents/` on its own, so the bulk of every plugin works — but these pieces don't, and are left as-is rather than silently half-ported:
+
+| Plugin | What doesn't carry over |
+|:-------|:------------------------|
+| `cursor-team-kit` | `rules/*.mdc` (Cursor's rules format) are not loaded. The `pr-review-canvas` skill needs Cursor's in-app browser; `workflow-from-chats` needs host chat transcripts. |
+| `pstack` | Paths and the model config are ported (below), but `automations/` still has no Claude Code equivalent, and the `autopilot-stack`, `autopilot-full`, `shipping`, and `multi-phase-plan` playbooks are written around fleets of Cursor cloud agents. Several skills also route skill-authoring to Cursor's built-in `create-skill`. |
+| `agent-compatibility`, `create-plugin`, `cursor-team-kit`, `pstack` | Agent frontmatter keys `readonly:` and `is_background:` are Cursor-only and are ignored — those agents run, but without the intended isolation. Claude Code warns once per file on load. |
+
+Everything not listed here — `teaching` and `cli-for-agent` — has no known Cursor-specific dependency. Their remaining mentions of Cursor are prose in a README, a copyright line, or the CSS property `cursor: pointer`.
+
+**Three sets of upstream changes are patched in**, all listed in `patched.txt`.
+
+`model: fast` → `model: sonnet` on five agents. `fast` is a Cursor model tier; Claude Code rejects it outright (`unrecognized_model`) and the agent terminates with an API error instead of running, so this is a fix rather than a preference.
+
+**`pstack` paths and model config.** Its skills read chat transcripts, write generated verification skills, and look up per-role model choices — all at `~/.cursor/` paths that don't exist under Claude Code. Those failed *silently*: `recall`, `reflect`, and `show-me-your-work` returned a confident empty result rather than an error, and `create-verification-skill` wrote into a directory Claude Code never loads. All of them now point at the Claude Code equivalents, and `/setup-pstack` writes `~/.claude/pstack-models.md` using real Claude model aliases.
+
+**Cursor-only `subagent_type` values.** `generalPurpose` in nine pstack files, and `shell` / `explore` in the three thermo-nuclear review agents, name agent types Claude Code does not have — every fan-out died on its first spawn. They now use `general-purpose` and `Explore`, with the diff collection that `shell` did folded into the parent's own Bash call. The slug rule that maps a workspace path to its transcript directory also now maps `_` to `-`, matching Claude Code; without it any repo path containing an underscore resolved to a directory that doesn't exist.
+
+**Skills reached by name, not by path.** 49 upstream skills ship `disable-model-invocation: true` — all of `pstack` and `thermos`, plus `orchestrate`, `continual-learning`, and two `cursor-team-kit` skills. Claude Code reads that flag as *absent from the model's catalog*, slash-command-only, so a subagent cannot resolve any of those names. Upstream's own agents assume it can, which only works if Cursor's flag merely suppresses proactive triggering while keeping the name resolvable on request.
+
+The three thermo-nuclear review agents hit this hardest: told to *load* their rubric skill, the call could never resolve, and each fell through to its own "if that skill is not available" clause — returning an unrubricked audit that still read like a thermo-nuclear one. pstack degrades more gently, since it says *read the `SKILL.md`* rather than load the skill, but it named files without paths and left the agent searching for them. All of them now name a path: `${CLAUDE_PLUGIN_ROOT}/skills/<name>/SKILL.md`, which Claude Code substitutes inside skill and agent content, and `../principle-<name>/SKILL.md` for poteto-mode's leaf principles. A `find` under `~/.claude/plugins` was the first attempt and was not enough — an installed plugin lives under a commit-sha directory, so the glob matched only a marketplace clone that happened to be on disk, and both reviewers went on improvising. `/thermos` now also reads each rubric itself and passes it in the subagent's prompt, so the one that matters can't be missed. The flag itself is left alone in every case, so a deliberately harsh, expensive review still never auto-triggers.
+
+Run `/setup-pstack` once after installing pstack. Sixteen skill files still name Cursor model slugs as their inline fallback; the generated config overrides every one of them, and patching prose in sixteen more files was not worth the permanent rebase cost. One caveat on that config: upstream fans its review panels across vendors so each reviewer's blind spots differ, and a Claude-only panel varies capability rather than lineage — so don't read panel agreement as cross-vendor corroboration.
+
+## Credits
+
+The Claude Code manifest layout and the first version of the sync workflow come from [Kamil Doroszewicz](https://github.com/kdoroszewicz)'s [cursor-plugins-claude](https://github.com/kdoroszewicz/cursor-plugins-claude), which this fork descends from.
+
+## Keeping up to date
+
+This repo tracks [cursor/plugins](https://github.com/cursor/plugins). When upstream publishes new plugins or updates, this fork will be rebased to include them. The sync workflow is documented in the [sync-fork skill](.claude/skills/sync-fork/SKILL.md) — use it to ensure all manifests stay in sync.
 
 ## License
 

@@ -1,0 +1,51 @@
+# Upstream files the fork deliberately modifies for Claude Code compatibility.
+#
+# Everything else must stay byte-identical to upstream. These will conflict on
+# most rebases: re-apply the fork's change on top of upstream's new text rather
+# than taking either side wholesale. Taking "theirs" silently reverts the port
+# and nothing else would notice, so the check script asserts every file here
+# still differs from upstream — and that nothing outside the list does.
+#
+# Format: <path><TAB><what we changed>
+
+agent-compatibility/agents/docs-reliability-review.md	model: fast -> sonnet (Claude Code rejects "fast" as unrecognized_model and the agent never runs)
+agent-compatibility/agents/startup-review.md	model: fast -> sonnet (same)
+agent-compatibility/agents/compatibility-scan-review.md	model: fast -> sonnet (same)
+agent-compatibility/agents/validation-review.md	model: fast -> sonnet (same)
+cursor-team-kit/agents/ci-watcher.md	model: fast -> sonnet (same)
+
+# pstack: paths and the model-config generator (see README "Known gaps" for what is deliberately left)
+pstack/skills/setup-pstack/SKILL.md	config -> ~/.claude/pstack-models.md, Claude model aliases, AskUserQuestion, drop alwaysApply
+pstack/skills/swarm/SKILL.md	config path, general-purpose, drop environment: cloud / cloud_base_branch
+pstack/skills/arena/SKILL.md	config path -> ~/.claude/pstack-models.md
+pstack/skills/interrogate/SKILL.md	config path -> ~/.claude/pstack-models.md, general-purpose
+pstack/docs/guide/01-setup.md	config path -> ~/.claude/pstack-models.md
+pstack/skills/recall/SKILL.md	transcripts -> ~/.claude/projects/<slug>/<session>.jsonl and the CC slug rule (incl. _ -> -)
+pstack/skills/reflect/SKILL.md	transcript dir + ls glob -> Claude Code layout, general-purpose
+pstack/skills/show-me-your-work/SKILL.md	transcript dir -> ~/.claude/projects/<slug>/
+pstack/skills/automate-me/SKILL.md	transcript dir, .claude/skills/, AskUserQuestion
+pstack/skills/poteto-mode/scripts/worktree-audit.sh	transcripts dir + slug transform -> Claude Code
+pstack/skills/poteto-mode/playbooks/eval.md	transcript dir -> ~/.claude/projects/<slug>/
+pstack/skills/poteto-mode/playbooks/session-pickup.md	transcript dir, drop cloud-agent URL handoff
+pstack/skills/create-verification-skill/SKILL.md	generates into .claude/skills/ so Claude Code loads it
+pstack/skills/maintain-verification-skill/SKILL.md	locates verify-* under .claude/skills/
+pstack/skills/reflect/references/divergent-reviewer.md	skill search paths -> .claude/
+pstack/skills/reflect/references/judgment-reviewer.md	skill search paths -> .claude/
+pstack/skills/reflect/references/tooling-reviewer.md	skill search paths -> .claude/
+pstack/skills/poteto-mode/SKILL.md	AskUserQuestion, drop cloud-agent URL handoff, leaf principles reached by path
+pstack/skills/poteto-mode/playbooks/autonomous-run.md	AskUserQuestion
+pstack/skills/poteto-mode/playbooks/orchestrate.md	local-only worker placement, transcript dir, AskUserQuestion
+pstack/skills/poteto-mode/playbooks/worktree-cleanup.md	neutral worktree path in the example
+pstack/docs/guide/06-verify-and-ship.md	generated verification skill path -> .claude/skills/
+pstack/docs/guide/09-make-it-yours.md	generated mode skill path -> .claude/skills/
+pstack/skills/how/SKILL.md	general-purpose
+pstack/skills/why/SKILL.md	general-purpose
+pstack/agents/poteto-agent.md	general-purpose, poteto-mode SKILL.md located by path
+pstack/README.md	general-purpose
+
+# thermos / cursor-team-kit: subagent_type values Claude Code doesn't have, and
+# rubrics the Skill tool can't reach
+thermos/agents/thermo-nuclear-review-subagent.md	shell/explore -> parent Bash + Explore; rubric read by path, not Skill
+thermos/agents/thermo-nuclear-code-quality-review-subagent.md	same
+cursor-team-kit/agents/thermo-nuclear-code-quality-review.md	same
+thermos/skills/thermos/SKILL.md	parent passes each rubric inline (subagents cannot Skill-load a disable-model-invocation skill)
